@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package kiwi.api;
+
+option go_package = "example.org/luksam/kiwi-server/apidefinition/go/external";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+// DeviceService is a service managing the devices.
+service DeviceService {
+    // List returns the available devices.
+    rpc List (ListDeviceRequest) returns (ListDeviceResponse) {
+        option(google.api.http) = {
+            get: "/api/devices"
+        };
+    };
+}
+
+message ListDeviceRequest {
+
+}
+
+message ListDeviceResponse {
+    // Total number of devices available within the result-set.
+    int64 number_of_devices = 1 [json_name = "numberOfDevices"];
+    
+    // All devices.
+    repeated DeviceListItem devices = 2;
+}
+
+message DeviceListItem {
+    // Device EUI (HEX encoded).
+    string dev_eui = 1 [json_name = "devEUI"]; 
+    
+    // Name of the device.
+    string name = 2;
+    
+    // Description of the device.
+    string description = 3;
+    
+    // Device serial number.
+    int64 serial_number = 4 [json_name = "serialNumber"];
+
+    // Device type.
+    string device_type = 5 [json_name = "deviceType"];
+
+    // Device info available: False when device info is missing.
+    bool device_info_available = 6 [json_name = "deviceInfoAvailable"];
+    
+    // Time of the oldest measurement available.
+    google.protobuf.Timestamp first_measurement_time = 7 [json_name = "firstMeasurementTime"];
+
+    // Time of the newest measurement available.
+    google.protobuf.Timestamp last_measurement_time = 8 [json_name = "lastMeasurementTime"];
+    
+    // Number of measurements.
+    int64 number_of_measurements = 9 [json_name = "numberOfMeasurements"];
+}

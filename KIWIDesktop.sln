@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29920.165
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KIWIDesktop", "KIWIDesktop\KIWIDesktop.csproj", "{EB2B5B64-89B0-4994-A705-AC7AE54ACF76}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ChirpNestCommunication", "ChirpNestCommunication\ChirpNestCommunication.csproj", "{A9E51820-D6C0-4635-8611-3D50CEABA49A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProtoFiles", "ProtoFiles\ProtoFiles.csproj", "{178E6FCF-8BB6-404D-B209-3C530E43C823}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChirpNestCommunication.Test", "ChirpNestCommunication.Test\ChirpNestCommunication.Test.csproj", "{F3A8355D-D5B8-4425-B693-CFEE38E2C63B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB2B5B64-89B0-4994-A705-AC7AE54ACF76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB2B5B64-89B0-4994-A705-AC7AE54ACF76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB2B5B64-89B0-4994-A705-AC7AE54ACF76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB2B5B64-89B0-4994-A705-AC7AE54ACF76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9E51820-D6C0-4635-8611-3D50CEABA49A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9E51820-D6C0-4635-8611-3D50CEABA49A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9E51820-D6C0-4635-8611-3D50CEABA49A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9E51820-D6C0-4635-8611-3D50CEABA49A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{178E6FCF-8BB6-404D-B209-3C530E43C823}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{178E6FCF-8BB6-404D-B209-3C530E43C823}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{178E6FCF-8BB6-404D-B209-3C530E43C823}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{178E6FCF-8BB6-404D-B209-3C530E43C823}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3A8355D-D5B8-4425-B693-CFEE38E2C63B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3A8355D-D5B8-4425-B693-CFEE38E2C63B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3A8355D-D5B8-4425-B693-CFEE38E2C63B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3A8355D-D5B8-4425-B693-CFEE38E2C63B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F6F7D0F0-5F01-4187-8B05-62FFE3B29E50}
+	EndGlobalSection
+EndGlobal

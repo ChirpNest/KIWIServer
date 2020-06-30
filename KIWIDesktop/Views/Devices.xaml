@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="KIWIDesktop.Views.Devices"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:globalization="clr-namespace:System.Globalization;assembly=mscorlib"
+        mc:Ignorable="d"
+        DataContext="{Binding Devices, Source={StaticResource Locator}}">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Devices" FontWeight="Bold" FontSize="18"/>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" 
+                        HorizontalAlignment="Center" VerticalAlignment="Center" 
+                        Visibility="{Binding IsConnected, Converter={StaticResource InverseBoolToVisConverter}}">
+                <TextBox Text="{Binding GatewayIp, UpdateSourceTrigger=PropertyChanged}" Margin="5" VerticalAlignment="Center" MinWidth="150" materialDesign:HintAssist.Hint="Gateway IP address" Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                <Button Content="Connect" VerticalAlignment="Center" Command="{Binding ConnectCommand}" IsDefault="True" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+            </StackPanel>
+            <TextBlock Grid.Row="2" Text="{Binding ErrorMessage}"  VerticalAlignment="Center" Visibility="{Binding IsConnected, Converter={StaticResource InverseBoolToVisConverter}}" HorizontalAlignment="Center"/>
+            <Button Grid.Row="0" Command="{Binding DisconnectCommand}" Style="{StaticResource MaterialDesignFlatButton}" 
+                    Content="Disconnect" HorizontalAlignment="Right" 
+                    Visibility="{Binding IsConnected, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <DataGrid Grid.Row="1" ItemsSource="{Binding KellerDevices}" CanUserAddRows="False" 
+                      CanUserDeleteRows="False" 
+                      Style="{StaticResource MaterialDesignDataGrid}" IsReadOnly="True"
+                      Visibility="{Binding IsConnected, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Show" VerticalAlignment="Center" Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{Binding Path=DataContext.ShowDeviceCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" CommandParameter="{Binding}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Download and Remove" ToolTip="Downloads all data from this device and removes the data from the ChirpNest" VerticalAlignment="Center" Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{Binding Path=DataContext.DownloadAndRemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" CommandParameter="{Binding}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        <Border Grid.Row="1" Height="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" SnapsToDevicePixels="True" Background="{DynamicResource MaterialDesignDivider}"/>
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="Local measurements" FontWeight="Bold" FontSize="18"/>
+            <DataGrid Grid.Row="1" ItemsSource="{Binding LocalMeasurements}" CanUserAddRows="False" 
+                      CanUserDeleteRows="False" AutoGenerateColumns="False"
+                      Style="{StaticResource MaterialDesignDataGrid}" IsReadOnly="True">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Show" VerticalAlignment="Center" Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{Binding Path=DataContext.ShowLocalRecordCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=DataGrid}}" CommandParameter="{Binding}"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Device name" Binding="{Binding DeviceName}"/>
+                    <DataGridTextColumn Header="Device type" Binding="{Binding DeviceType}"/>
+                    <DataGridTextColumn Header="First measurement" Binding="{Binding FirstMeasurementUTC, ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}"/>
+                    <DataGridTextColumn Header="Last measurement" Binding="{Binding LastMeasurementUTC, ConverterCulture={x:Static globalization:CultureInfo.CurrentCulture}}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</UserControl>

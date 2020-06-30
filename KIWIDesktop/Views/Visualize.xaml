@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="KIWIDesktop.Views.Visualize"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:xamlExtensions="clr-namespace:KIWIDesktop.XamlExtensions"
+        xmlns:models="clr-namespace:KIWIDesktop.Models"
+        xmlns:units="clr-namespace:KellerAg.Shared.Entities.Units;assembly=KellerAg.Shared.Entities"
+        mc:Ignorable="d"
+        DataContext="{Binding Visualize, Source={StaticResource Locator}}">
+    <UserControl.Resources>
+        <DataTemplate x:Key="LineSeriesTemplate" DataType="{x:Type models:OxyPlotSeries}">
+            <oxy:LineSeries Title="{Binding Title}" XAxisKey="DateTimeAxis" ItemsSource="{Binding Points}">
+                <oxy:LineSeries.Style>
+                    <Style TargetType="oxy:LineSeries">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding UnitType}" Value="{x:Static units:UnitType.Pressure}">
+                                <Setter Property="YAxisKey" Value="PressureAxis"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding UnitType}" Value="{x:Static units:UnitType.Temperature}">
+                                <Setter Property="YAxisKey" Value="TemperatureAxis"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding UnitType}" Value="{x:Static units:UnitType.Conductivity}">
+                                <Setter Property="YAxisKey" Value="ConductivityAxis"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </oxy:LineSeries.Style>
+            </oxy:LineSeries>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <xamlExtensions:PlotExtension Grid.Row="0" Title="{Binding File.Header.CustomAttributes.RecordName}" Source="{Binding DataSeries}">
+            <xamlExtensions:PlotExtension.SeriesDataTemplateSelector>
+                <xamlExtensions:SeriesDataTemplateSelector
+                    LineSeriesTemplate="{StaticResource LineSeriesTemplate}"/>
+            </xamlExtensions:PlotExtension.SeriesDataTemplateSelector>
+            <xamlExtensions:PlotExtension.Axes>
+                <oxy:DateTimeAxis Title="" Key="DateTimeAxis" MajorGridlineStyle="Dot" MajorGridlineColor="LightGray" />
+                <oxy:LinearAxis Title="Pressure [bar]" Key="PressureAxis" MajorGridlineStyle="Dot" MajorGridlineColor="LightGray"/>
+                <oxy:LinearAxis Title="Temperature [°C]" Key="TemperatureAxis" Position="Right"/>
+                <oxy:LinearAxis Title="Conductivity [mS/cm^2]" Key="ConductivityAxis" Position="Right" PositionTier="2"/>
+            </xamlExtensions:PlotExtension.Axes>
+        </xamlExtensions:PlotExtension>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Visibility="{Binding IsRecordSavedLocally, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Button Margin="5" Content="Export" VerticalAlignment="Center" Command="{Binding ExportCommand}" IsDefault="True" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+            <Button Margin="5" Content="Delete local" VerticalAlignment="Center" Command="{Binding DeleteLocalCommand}" IsDefault="True" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Visibility="{Binding IsRecordSavedLocally, Converter={StaticResource InverseBoolToVisConverter}}">
+            <Button Margin="5" Content="Download" VerticalAlignment="Center" Command="{Binding DownloadCommand}" IsDefault="True" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+            <Button Margin="5" Content="Export" VerticalAlignment="Center" Command="{Binding ExportCommand}" IsDefault="True" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+            <Button Margin="5" Content="Download and remove on ChirpNest" VerticalAlignment="Center" Command="{Binding DownloadAnDeleteCommand}" IsDefault="True" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+            <Button Margin="5" Content="Delete on ChirpNest" VerticalAlignment="Center" Command="{Binding DeleteOnRemoteCommand}" IsDefault="True" Style="{StaticResource MaterialDesignRaisedAccentButton}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

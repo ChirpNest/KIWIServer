@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package kiwi.api;
+
+option go_package = "example.org/luksam/kiwi-server/apidefinition/go/external";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+// MeasurementService is for managing and retrieving the measurements.
+service MeasurementService {
+    // Get returns the requested measurements.
+    rpc Get (GetMeasurementsRequest) returns (GetMeasurementsResponse) {
+        option(google.api.http) = {
+            get: "/api/measurements/{dev_eui}"
+        };
+    };
+
+	// Delete deletes the specified measurements.
+	rpc Delete(DeleteMeasurementsRequest) returns (google.protobuf.Empty) {
+		option(google.api.http) = {
+			delete: "/api/measurements/{dev_eui}"
+		};
+	}
+}
+
+message DeleteMeasurementsRequest {
+	// Device EUI (HEX encoded).
+	string dev_eui = 1 [json_name = "devEUI"];
+
+    // Delete only measurements after this timestamp.
+    google.protobuf.Timestamp start = 2;
+
+    // Delete only measurements before this timestamp.
+    google.protobuf.Timestamp end = 3;
+}
+
+message GetMeasurementsRequest {
+    // Device EUI (HEX encoded).
+    string dev_eui = 1 [json_name = "devEUI"];
+
+    // Get only measurements after this timestamp.
+    google.protobuf.Timestamp start = 2;
+
+    // Get only measurements before this timestamp.
+    google.protobuf.Timestamp end = 3;
+}
+
+message GetMeasurementsResponse {
+    // Total number of measurements available within the result-set.
+    int64 number_of_measurements = 1 [json_name = "numberOfMeasurements"];
+    
+    // Device EUI (HEX encoded).
+    string dev_eui = 2 [json_name = "devEUI"];
+
+    // All devices.
+    repeated MeasurementListItem measurements = 3;
+}
+
+message MeasurementListItem {
+    // Time of the measurement.
+    google.protobuf.Timestamp time = 1;
+
+    // Port.
+    int64 port = 2;
+
+    // Channel (in last 2 bytes, e.g. 00000000 00000000 10100000 00010010).
+    fixed32 channel = 3;
+
+    // Number of channels.
+    int64 channel_count = 4 [json_name = "channelCount"];
+
+    // ct (as decoded)
+    int64 ct = 5;
+
+    // func (as decoded)
+    int64 func = 6;
+
+    // Measured value of each channel.
+    map<string, double> channel_values = 7 [json_name = "channelValues"];
+}
